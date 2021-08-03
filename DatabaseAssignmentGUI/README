@@ -1,3 +1,0 @@
-This program uses a table created in an already set up SQL database server, 
-meaning the credentials you would use to access your specific database should be entered into the "safeguardexample.py" file.
-This file is then used in all processes that interact with the database by importing the file
