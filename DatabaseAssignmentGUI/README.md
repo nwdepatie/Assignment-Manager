@@ -1,3 +1,5 @@
+Personal Project
+
 This app uses a table that exists within an already established SQL database. safeguardexample.py is imported into the scripts that interface with the table and holds all the credentials to the SQL database.
 
 First, the user must initialize the table for use by running initialize_table.py, then homework_app.py can be run to launch the app.
