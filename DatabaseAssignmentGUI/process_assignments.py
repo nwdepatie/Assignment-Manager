@@ -124,7 +124,7 @@ class process:
             k=0
 
             while i < len(left) and j < len(right):
-                if process.getsublist(left[i],1) < process.getsublist(right[j],1):
+                if int(process.getsublist(left[i],1)) < int(process.getsublist(right[j],1)):
                     list[k] = left[i]
                     i += 1
                     
