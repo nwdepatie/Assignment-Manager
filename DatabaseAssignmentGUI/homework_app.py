@@ -6,10 +6,13 @@ This script will create a GUI to allow the user to log assignments to a database
     (i.e. how close the deadline is and how important is the assignment)
 """
 
+from os import DirEntry
 import sys
 import time
 import importlib
 from typing import Text
+import PyQt5
+from PyQt5 import QtCore
 from PyQt5.QtWidgets import (
     QApplication, 
     QWidget, 
@@ -18,9 +21,10 @@ from PyQt5.QtWidgets import (
     QLineEdit, 
     QListWidget, 
     QCompleter, 
-    QCalendarWidget)
-from PyQt5.QtGui import QIcon
-from PyQt5.QtCore import center, pyqtSlot, QDate
+    QCalendarWidget,
+    )
+from PyQt5.QtGui import QIcon, QPainter
+from PyQt5.QtCore import center, pyqtSlot, QDate, QRect
 from PyQt5.sip import assign
 import database_interface as interface
 import process_assignments as process
@@ -44,6 +48,11 @@ def mainwindow():
     initbutton.setGeometry(650,64,275,55)
     initbutton.clicked.connect(init_table)
 
+    global calendar
+    calendar=QCalendarWidget(widget)
+    calendar.setGeometry(600, 270, 700, 600)
+    calendar.selectionChanged.connect(lambda:calendar_date())
+
     welcomewidget=QLabel(widget)
     welcomewidget.setText("Welcome User, What would you like to accomplish today?")
     welcomewidget.move(200,10)
@@ -57,7 +66,7 @@ def mainwindow():
     subjectlabel.move(600,150)
 
     datelabel=QLabel(widget)
-    datelabel.setText("Date (MonthDayTime)")
+    datelabel.setText("Priority (1-10)")
     datelabel.move(1100,150)
 
     global assignmentnameinput
@@ -68,13 +77,9 @@ def mainwindow():
     subjectinput=QLineEdit(widget)
     subjectinput.setGeometry(600, 190, 200, 50)
 
-    global dateinput
-    dateinput=QLineEdit(widget)
-    dateinput.setGeometry(1100, 190, 200, 50)
-
-    global calendar
-    calendar=QCalendarWidget(widget)
-    calendar.setGeometry(600, 270, 700, 600)
+    global priorityinput
+    priorityinput=QLineEdit(widget)
+    priorityinput.setGeometry(1100, 190, 200, 50)
     
     global listwidget
     listwidget=QListWidget(widget)
@@ -88,21 +93,22 @@ def mainwindow():
 
 #############################################################################################
 
+
 def logassignments():
-    print('logging assignment...')
+    print("logging assignment...")
     subject=subjectinput.text()
     assignmentname=assignmentnameinput.text()
-    due_date=dateinput.text()
-    priority=10
+    priority=priorityinput.text()
     interface.send.push_assignments(subject, assignmentname, due_date, priority)
     subjectinput.clear()
     assignmentnameinput.clear()
-    dateinput.clear()
+    priorityinput.clear()
     importlib.reload(interface)
-    print('done!')
+    getassignments()
+    print("done logging!")
     
 def getassignments():
-    print('processing assignments...')
+    print("processing assignments...")
     listwidget.clear()
     importlib.reload(interface)
     assignmentlist=interface.receive.callassignments()
@@ -113,14 +119,18 @@ def getassignments():
         assignment=process.process.getsublist(assignmentlist[i],0)
         listwidget.insertItem(i,str(assignment))
     
-    print("done!")
+    print("done getting!")
 
 def init_table():
-    print('Hi')
+    print("initializing table...")
+    interface.initialize.initialize()
 
+def calendar_date():
+    global due_date
+    due_date=QDate.toString(calendar.selectedDate())
+    due_date=process.process.timetoint(due_date)
 
 ################################################################################################
-
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

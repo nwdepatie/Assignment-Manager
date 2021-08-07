@@ -24,45 +24,20 @@ mydb = mysql.connector.connect(
 )
 
 class send:
-
-    def askuser():
-        global name, subject, inputtime, priority, due_date, deadline
-        ####################################################
-        name=input("What is the name of the assignment? ")
-        subject=input("What subject is this for? ")
-            #due_date is in monthdaytime
-        inputtime=input("When is the due date? (month day time) ")
-        due_date=process.timetoint(inputtime)
-        deadline=process.timeuntildeadline(due_date)
-        priority=input("How important is this assignment from 1-10 (10 being the most important) ")
-        
     def push_assignments(subject, name, due_date, priority):
         mycursor = mydb.cursor()
         sql = "INSERT INTO homework (subject, name, due_date, priority) VALUES (%s, %s, %s, %s)"
-        
-        repeat='y'
 
         if subject=="" or name=="" or due_date=="" or priority=="":
           print("error logging entry: entry is empty")
           return
-        
-        while repeat == 'y':
-            
-            #send.askuser()
 
-            val = (subject, name, due_date, priority)
-            
-            mycursor.execute(sql, val)
-            
-            mydb.commit()
-            
-            repeat='n'
-            #repeat=input('Would you like to input another assignment? (y/n) ')
+        val = (subject, name, due_date, priority)  
+        mycursor.execute(sql, val)       
+        mydb.commit()
 
-        print(mycursor.rowcount, "record inserted.")
 
 class receive:
-  
   def callassignments():
     mycursor = mydb.cursor()
 
@@ -73,3 +48,20 @@ class receive:
     listlength=len(myresult)
 
     return myresult
+
+class initialize:
+  def initialize():
+    mycursor = mydb.cursor()
+    #########################################################
+    mycursor.execute("DROP TABLE homework")
+    
+    time.sleep(0.1)
+
+    mycursor.execute("CREATE TABLE homework (subject VARCHAR(255), name VARCHAR(255), due_date VARCHAR(255), priority VARCHAR(255))")
+
+    mycursor.execute("SHOW TABLES")
+
+    for x in mycursor:
+      print(x)
+
+    print("Finished with no errors")

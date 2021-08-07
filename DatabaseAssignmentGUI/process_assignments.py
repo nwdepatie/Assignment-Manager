@@ -14,29 +14,29 @@ class process:
 
     def month():
         a=listtime[0]
-        if a == 'January' or a=='january' or a=='1':
+        if a == 'January' or a=='january' or a=='1' or a=='Jan':
             listtime[0]='1'
-        if a == 'February' or a=='february' or a=='2':
+        if a == 'February' or a=='february' or a=='2' or a=='Feb':
             listtime[0]='2'
-        if a == 'March' or a=='march' or a=='3':
+        if a == 'March' or a=='march' or a=='3' or a=='Mar':
             listtime[0]='3'
-        if a == 'April' or a=='april' or a=='4':
+        if a == 'April' or a=='april' or a=='4' or a=='Apr':
             listtime[0]='4'
-        if a == 'May' or a=='may' or a=='5':
+        if a == 'May' or a=='may' or a=='5' or a=='May':
             listtime[0]='5'
-        if a == 'June' or a=='june' or a=='6':
+        if a == 'June' or a=='june' or a=='6' or a=='Jun':
             listtime[0]='6'
-        if a == 'July' or a=='july' or a=='7':
+        if a == 'July' or a=='july' or a=='7' or a=='Jul':
             listtime[0]='7'
-        if a == 'August' or a=='august' or a=='8':
+        if a == 'August' or a=='august' or a=='8' or a=='Aug':
             listtime[0]='8'
-        if a == 'September' or a=='september' or a=='9':
+        if a == 'September' or a=='september' or a=='9' or a=='Sep':
             listtime[0]='9'
-        if a == 'October' or a=='october' or a=='10':
+        if a == 'October' or a=='october' or a=='10' or a=='Oct':
             listtime[0]='10'
-        if a == 'November' or a=='november' or a=='11':
+        if a == 'November' or a=='november' or a=='11' or a=='Nov':
             listtime[0]='11'
-        if a == 'December' or a=='december' or a=='12':
+        if a == 'December' or a=='december' or a=='12' or a=='Dec':
             listtime[0]='12'
 
     def day():
@@ -54,9 +54,10 @@ class process:
         listtime[2]=hour+minute
 
     def timetoint(inputtime):
-        global listtime, due_date  
+        global listtime
         
         listtime=list(inputtime.split(" "))
+        listtime.pop(0)
         
         process.month()
         process.day()
@@ -106,8 +107,6 @@ class process:
             assignments.append(urgency)
             assignments=str(assignments)
             assignmentlist[i]=assignments
-
-        #print(assignmentlist)
     
     def mergesort_list(list):
         if len(list) > 1:
