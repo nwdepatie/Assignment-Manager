@@ -13,7 +13,7 @@ This script uses database credentials to access the database:
 from re import A
 import mysql.connector
 from process_assignments import *
-import safeguardexample as safeguard
+import safeguard as safeguard
 import time
 
 mydb = mysql.connector.connect(

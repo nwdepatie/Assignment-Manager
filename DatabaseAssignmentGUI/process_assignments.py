@@ -45,26 +45,17 @@ class process:
         if a<10:
             listtime[1]=f'{a:02}'
 
-    def time():
-        endspace="."
-        stringtime=listtime[2]
-        stringtime=stringtime+endspace
-        hour=stringtime[0:2]
-        minute=stringtime[-3:-1]
-        listtime[2]=hour+minute
-
-    def timetoint(inputtime):
+    def datetoint(inputtime):
         global listtime
         
         listtime=list(inputtime.split(" "))
         listtime.pop(0)
+        listtime.pop(2)
         
         process.month()
         process.day()
-        process.time()
         
-        due_date=listtime[0]+listtime[1]+listtime[2]
-        due_date=int(due_date)
+        due_date=listtime[0]+listtime[1]
         return due_date
 
     def timeuntildeadline(due_date):
