@@ -79,6 +79,8 @@ class process:
         elif n==2:
             superlist=superlist.replace(",","")
             return superlist
+        elif n==3:
+            return sublist[1], sublist[0]
         
     def string_to_int(assignmentlist):
         
