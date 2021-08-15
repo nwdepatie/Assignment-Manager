@@ -15,6 +15,7 @@ import PyQt5
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import (
     QApplication,
+    QComboBox,
     QListWidgetItem, 
     QWidget, 
     QPushButton, 
@@ -23,7 +24,8 @@ from PyQt5.QtWidgets import (
     QListWidget, 
     QCompleter, 
     QCalendarWidget,
-    QScrollBar
+    QScrollBar,
+    QComboBox
     )
 from PyQt5.QtGui import QColor, QIcon, QPainter
 from PyQt5.QtCore import center, pyqtSlot, QDate, QRect
@@ -52,12 +54,12 @@ def mainwindow():
 
     global calendar
     calendar=QCalendarWidget(widget)
-    calendar.setGeometry(600, 270, 700, 600)
+    calendar.setGeometry(600, 270, 775, 600)
     calendar.selectionChanged.connect(calendar_date)
 
     global timelistwidget
     timelistwidget=QListWidget(widget)
-    timelistwidget.setGeometry(1325, 317, 200, 555)
+    timelistwidget.setGeometry(1400, 317, 200, 555)
     timescrollbar=QScrollBar(widget)
     timelistwidget.setVerticalScrollBar(timescrollbar)
     insertTimes()
@@ -81,7 +83,7 @@ def mainwindow():
 
     timelabel=QLabel(widget)
     timelabel.setText("Time")
-    timelabel.move(1325,280)
+    timelabel.move(1400,280)
 
     global assignmentnameinput
     assignmentnameinput=QLineEdit(widget)
@@ -90,6 +92,13 @@ def mainwindow():
     global subjectinput
     subjectinput=QLineEdit(widget)
     subjectinput.setGeometry(600, 190, 200, 50)
+
+    courses=["DiffEq","Circuits","Organization","Embedded","Co-op"]
+    completer=QCompleter(courses,widget)
+    #completer.setCaseSensitivity(Qt.CaseInsensitive)
+    subjectinput.setCompleter(completer)
+
+
 
     global priorityinput
     priorityinput=QLineEdit(widget)
@@ -102,7 +111,7 @@ def mainwindow():
 
     getassignments()
 
-    widget.setGeometry(250,250,1600,1000)
+    widget.setGeometry(250,250,1625,1000)
     widget.setWindowTitle("Assignment Workspace")
     widget.show()
 
@@ -129,6 +138,7 @@ def logassignments():
         print("done logging!")
     
 def getassignments():
+    global assignmentlist
     print("processing assignments...")
     listwidget.clear()
     importlib.reload(interface)
@@ -141,14 +151,17 @@ def getassignments():
 
         urgency=int(process.process.getsublist(assignmentlist[i],1))
 
-        if urgency > 50000:
+        if urgency >= 50000:
             assignment.setBackground(QColor('#C1E1C1'))
 
-        if urgency < 50000 and urgency > 10000:
+        if urgency < 50000 and urgency >= 10000:
             assignment.setBackground(QColor('#fdfd96'))
 
-        if urgency < 10000:
+        if urgency < 10000 and urgency >=-10000:
             assignment.setBackground(QColor('#ff6961'))
+        
+        if urgency <-10000:
+            assignment.setBackground(QColor('#C3B1E1'))
 
         listwidget.addItem(assignment)
         
@@ -156,12 +169,16 @@ def getassignments():
     print("done getting!")
 
 def removeassignments():
-    print(listwidget.currentRow())
+    assignment,subject=process.process.getsublist(assignmentlist[listwidget.currentRow()],3)
+    print("deleting assignment...")
+    interface.send.delete_assignments(assignment,subject)
+    getassignments()
+    print("done deleting!")
 
 def init_table():
     print("initializing table...")
     interface.initialize.initialize()
-    logassignments()
+    getassignments()
 
 def calendar_date():
     global due_date_date

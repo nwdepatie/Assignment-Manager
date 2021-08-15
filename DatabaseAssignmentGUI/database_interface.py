@@ -33,8 +33,20 @@ class send:
           return
 
         val = (subject, name, due_date, priority)  
-        mycursor.execute(sql, val)       
+        mycursor.execute(sql, val)
         mydb.commit()
+
+    def delete_assignments(assignment,subject):
+      mycursor=mydb.cursor()
+
+      sql = "DELETE FROM homework WHERE name = %s AND subject = %s"
+      val=(assignment[2:],subject)
+      print(val)
+      mycursor.execute(sql,val)
+
+      mydb.commit()
+      print(mycursor.rowcount, "record(s) deleted")
+      
 
 
 class receive:
