@@ -89,7 +89,7 @@ class mainWindow(QMainWindow):
         subjectlabel.setGeometry(600,150,215,50)
 
         datelabel=QLabel(self)
-        datelabel.setText("Priority (0-10)")
+        datelabel.setText("Priority (1-10)")
         datelabel.setGeometry(1100,150,215,50)
 
         timelabel=QLabel(self)
@@ -108,9 +108,11 @@ class mainWindow(QMainWindow):
         #completer.setCaseSensitivity(Qt.CaseInsensitive)
         subjectinput.setCompleter(completer)
 
-        #TODO change into QComboBox
         global priorityinput
-        priorityinput=QLineEdit(self)
+        priorityinput=QComboBox(self)
+        prioritylist=['1','2','3','4','5','6','7','8','9','10']
+        priorityinput.addItems(prioritylist)
+        priorityinput.setStyleSheet("QComboBox { background-color: white; }")
         priorityinput.setGeometry(1100, 190, 200, 50)
         
         global listwidget
@@ -124,7 +126,7 @@ class mainWindow(QMainWindow):
         print("logging assignment...")
         subject=subjectinput.text()
         assignmentname=assignmentnameinput.text()
-        priority=priorityinput.text()
+        priority=priorityinput.currentText()
         try:
             due_date=int(due_date_date+due_date_time)
             interface.send.push_assignments(subject, assignmentname, due_date, priority)
