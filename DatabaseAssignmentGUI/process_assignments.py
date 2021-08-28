@@ -108,7 +108,7 @@ class process:
             current_weekday=object_date.weekday()
             #print(str(current_weekday)+"vs"+str(previous_weekday))
 
-            #IMPROVE WEEK SPECIFICTY LOGIC FOR SMALLER SAMPLE SIZES
+            #TODO IMPROVE WEEK SPECIFICTY LOGIC FOR SMALLER SAMPLE SIZES
             if current_weekday<previous_weekday:
                 weektally.append(i)
 

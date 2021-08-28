@@ -35,6 +35,7 @@ from PyQt5.QtCore import center, pyqtSlot, QDate, QRect
 from PyQt5.sip import assign
 import database_interface as interface
 import process_assignments as process
+import googlecalendar_interface as quickstart
 
 
 class mainWindow(QMainWindow):
@@ -63,10 +64,9 @@ class mainWindow(QMainWindow):
         initbutton.setGeometry(650,64,275,55)
         initbutton.clicked.connect(mainWindow.init_table)
 
-        global calendar
+        global calendar, due_date_date
         calendar=QCalendarWidget(self)
         calendar.setGeometry(600, 270, 775, 600)
-        calendar.selectionChanged.connect(mainWindow.calendar_date)
 
         global timelistwidget
         timelistwidget=QListWidget(self)
@@ -105,7 +105,7 @@ class mainWindow(QMainWindow):
         subjectinput.setGeometry(600, 190, 200, 50)
         courses=["DiffEq","Circuits","Organization","Embedded","Co-op"]
         completer=QCompleter(courses,self)
-        #completer.setCaseSensitivity(Qt.CaseInsensitive)
+        completer.setCaseSensitivity(QtCore.Qt.CaseInsensitive)
         subjectinput.setCompleter(completer)
 
         global priorityinput
@@ -127,6 +127,8 @@ class mainWindow(QMainWindow):
         subject=subjectinput.text()
         assignmentname=assignmentnameinput.text()
         priority=priorityinput.currentText()
+        due_date_object=datetime.strptime(QDate.toString(calendar.selectedDate()),"%a %b %d %Y")
+        due_date_date=due_date_object.month*1000000+due_date_object.day*10000
         try:
             due_date=int(due_date_date+due_date_time)
             interface.send.push_assignments(subject, assignmentname, due_date, priority)
@@ -135,7 +137,6 @@ class mainWindow(QMainWindow):
         finally:
             subjectinput.clear()
             assignmentnameinput.clear()
-            priorityinput.clear()
             importlib.reload(interface)
             mainWindow.getassignments()
             print("done logging!")
@@ -188,13 +189,9 @@ class mainWindow(QMainWindow):
 
     def init_table():
         print("initializing table...")
+        quickstart.main()
         interface.initialize.initialize()
         mainWindow.getassignments()
-
-    def calendar_date():
-        global due_date_date
-        due_date_object=datetime.strptime(QDate.toString(calendar.selectedDate()),"%a %b %d %Y")
-        due_date_date=due_date_object.month*1000000+due_date_object.day*10000
 
     def selecttime():
         global due_date_time
