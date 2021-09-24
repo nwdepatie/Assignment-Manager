@@ -42,27 +42,32 @@ class mainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        self.setGeometry(250,250,1625,900)
+        self.setGeometry(250,250,2000,900)
         self.setWindowTitle("Assignment Workspace")
         self.UiComponents()
         self.show()
 
     def UiComponents(self):
 
-        sortbutton = QPushButton(self)
-        sortbutton.setText("Sort All Assignments")
-        sortbutton.setGeometry(50,64,275,55)
-        sortbutton.clicked.connect(mainWindow.getassignments)
+        #sortbutton = QPushButton(self)
+        #sortbutton.setText("Sort All Assignments")
+        #sortbutton.setGeometry(50,64,275,55)
+        #sortbutton.clicked.connect(mainWindow.getassignments)
 
         logbutton = QPushButton(self)
         logbutton.setText("Log Assignment")
-        logbutton.setGeometry(350,64,275,55)
+        logbutton.setGeometry(50,64,275,55)
         logbutton.clicked.connect(mainWindow.logassignments)
 
         initbutton = QPushButton(self)
         initbutton.setText("Initilialize Table")
-        initbutton.setGeometry(650,64,275,55)
+        initbutton.setGeometry(350,64,275,55)
         initbutton.clicked.connect(mainWindow.init_table)
+
+        todobutton=QPushButton(self)
+        todobutton.setText("To Do:")
+        todobutton.setGeometry(1600,64,100,55)
+        todobutton.clicked.connect(mainWindow.logtodo)
 
         global calendar, due_date_date
         calendar=QCalendarWidget(self)
@@ -114,13 +119,27 @@ class mainWindow(QMainWindow):
         priorityinput.addItems(prioritylist)
         priorityinput.setStyleSheet("QComboBox { background-color: white; }")
         priorityinput.setGeometry(1100, 190, 200, 50)
+
+        global todoinput
+        todoinput=QLineEdit(self)
+        todoinput.setGeometry(1715, 64, 250, 50)
         
-        global listwidget
-        listwidget=QListWidget(self)
-        listwidget.setGeometry(50,150,500,720)
-        listwidget.doubleClicked.connect(mainWindow.removeassignments)
+        global assignmentlistwidget
+        assignmentlistwidget=QListWidget(self)
+        assignmentlistwidget.setGeometry(50,150,500,720)
+        assignmentlistwidget.doubleClicked.connect(mainWindow.removeassignments)
+
+        global todolistwidget
+        todolistwidget=QListWidget(self)
+        todolistwidget.setGeometry(1650, 150, 300, 720)
+        todolistwidget.doubleClicked.connect(mainWindow.removetodo)
 
         mainWindow.getassignments()
+        mainWindow.gettodos()
+        try:
+            quickstart.init()
+        except:
+            print("unable to access Google Calendar")
 
     def logassignments():
         print("logging assignment...")
@@ -131,7 +150,8 @@ class mainWindow(QMainWindow):
         due_date_date=due_date_object.month*1000000+due_date_object.day*10000
         try:
             due_date=int(due_date_date+due_date_time)
-            interface.send.push_assignments(subject, assignmentname, due_date, priority)
+            interface.assignmentdatabase.push_assignments(subject, assignmentname, due_date, priority)
+            quickstart.log_assignment(subject, assignmentname)
         except:
             print("error logging entry: part of due date was not given")
         finally:
@@ -140,13 +160,13 @@ class mainWindow(QMainWindow):
             importlib.reload(interface)
             mainWindow.getassignments()
             print("done logging!")
-    
+
     def getassignments():
         global assignmentlist
         print("processing assignments...")
-        listwidget.clear()
+        assignmentlistwidget.clear()
         importlib.reload(interface)
-        assignmentlist=interface.receive.callassignments()
+        assignmentlist=interface.assignmentdatabase.callassignments()
         process.process.string_to_int(assignmentlist)
         process.process.mergesort_list(assignmentlist)
         process.process.weeks_sorting(assignmentlist)
@@ -172,16 +192,16 @@ class mainWindow(QMainWindow):
                 assignment=QListWidgetItem('%s' % "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 
             finally:
-                listwidget.addItem(assignment)
+                assignmentlistwidget.addItem(assignment)
             
         
         print("done getting!")
 
     def removeassignments():
         try:
-            assignment,subject=process.process.getsublist(assignmentlist[listwidget.currentRow()],3)
+            assignment,subject=process.process.getsublist(assignmentlist[assignmentlistwidget.currentRow()],3)
             print("deleting assignment...")
-            interface.send.delete_assignments(assignment,subject)
+            interface.assignmentdatabase.delete_assignments(assignment,subject)
             mainWindow.getassignments()
             print("done deleting!")
         except:
@@ -189,8 +209,8 @@ class mainWindow(QMainWindow):
 
     def init_table():
         print("initializing table...")
-        quickstart.main()
-        interface.initialize.initialize()
+        quickstart.init()
+        interface.assignmentdatabase.initialize()
         mainWindow.getassignments()
 
     def selecttime():
@@ -230,6 +250,42 @@ class mainWindow(QMainWindow):
         timelist.append("2359")
         timelist[0]="0000"
         timelist[1]="0030"
+
+    def logtodo():
+        print("logging assignment...")
+        name=todoinput.text()
+        try:
+            interface.tododatabase.push_todo(name)
+        except:
+            print("error logging entry: part of due date was not given")
+        finally:
+            todoinput.clear()
+            importlib.reload(interface)
+            mainWindow.gettodos()
+            print("done logging!")
+
+    def gettodos():
+        global todolist
+        print("processing todos...")
+        todolistwidget.clear()
+        importlib.reload(interface)
+        todolist=interface.tododatabase.calltodos()
+
+        for i in range (len(todolist)):
+            todo=QListWidgetItem('%s' % process.process.getsublist(todolist[i],0))
+            if i%2==1:
+                todo.setBackground(QColor('#C9CFD6'))
+            todolistwidget.addItem(todo)
+
+    def removetodo():
+        try:
+            name=process.process.getsublist(todolist[todolistwidget.currentRow()],0)
+            print("deleting assignment...")
+            interface.tododatabase.delete_todo(name[0])
+            mainWindow.gettodos()
+            print("done deleting!")
+        except:
+            print("unable to delete item!")
 
 ################################################################################################
 
