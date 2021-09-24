@@ -9,3 +9,4 @@ This app is very, very early in development and will be outfitted with more late
 TODO:
 1) Log assignments into Google Calendar using API
 2) Attach custom skins to QT widgets
+3) Make TODO column separate from assignments for ongoing projects
