@@ -3,7 +3,8 @@ from PyQt5.QtWidgets import (
     QLabel, 
     QLineEdit, 
     QCompleter, 
-    QVBoxLayout
+    QVBoxLayout,
+    QComboBox
     )
 from PyQt5.QtGui import QColor, QIcon, QPainter
 
@@ -14,14 +15,14 @@ class PriorityInputLabel(QLabel):
         self.setText("Input Priority (1-10)")
 
 
-class PriorityInputLineEdit(QLineEdit):
+class PriorityInputComboBox(QComboBox):
     validUserInput = 1
-    ONLY_NUMBERS_ALLOWED = '9D' # Only numbers  greater than 0 allowed
+    prioritylist = ['1','2','3','4','5','6','7','8','9','10']
 
     def __init__(self):
         super().__init__()
-        self.setInputMask(self.ONLY_NUMBERS_ALLOWED)
-        self.textChanged.connect(self.cleanseInput)
+        self.addItems(self.prioritylist)
+        self.setStyleSheet("QComboBox { background-color: white; }")
 
     def cleanseInput(self,userInput):
         if self.hasAcceptableInput() and userInput < 10:
@@ -30,17 +31,16 @@ class PriorityInputLineEdit(QLineEdit):
             self.clear()
             self.setText(self.validUserInput)
 
-
 class PriorityInputWidget(QWidget):
     label = None
-    lineEdit = None
+    comboBox = None
 
     def __init__(self):
         super().__init__()
         self.label = PriorityInputLabel()
-        self.lineEdit = PriorityInputLineEdit()
+        self.comboBox = PriorityInputComboBox()
         layout = QVBoxLayout()
         layout.addWidget(self.label)
-        layout.addWidget(self.lineEdit)
+        layout.addWidget(self.comboBox)
 
         self.setLayout(layout)
