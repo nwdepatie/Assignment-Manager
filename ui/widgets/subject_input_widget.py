@@ -1,4 +1,3 @@
-from readline import set_completer
 from PyQt5.QtWidgets import (
     QWidget, 
     QLabel, 
@@ -27,11 +26,13 @@ class SubjectInputLineEdit(QLineEdit):
 
 
 class SubjectInputWidget(QWidget):
-    lineEdit = SubjectInputLineEdit()
-    label    = SubjectInputLabel()
+    lineEdit = None
+    label    = None
 
     def __init__(self):
         super().__init__()
+        self.lineEdit = SubjectInputLineEdit()
+        self.label    = SubjectInputLabel()
         layout = QVBoxLayout()
         layout.addWidget(self.label)
         layout.addWidget(self.lineEdit)

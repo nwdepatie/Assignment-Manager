@@ -20,11 +20,13 @@ class AssignmentNameInputLineEdit(QLineEdit):
 
 
 class AssignmentNameInputWidget(QWidget):
-    lineEdit = AssignmentNameInputLineEdit()
-    label    = AssignmentNameInputLabel()
+    lineEdit = None
+    label    = None
 
     def __init__(self):
         super().__init__()
+        self.lineEdit = AssignmentNameInputLineEdit()
+        self.label    = AssignmentNameInputLabel()
         layout = QVBoxLayout()
         layout.addWidget(self.label)
         layout.addWidget(self.lineEdit)

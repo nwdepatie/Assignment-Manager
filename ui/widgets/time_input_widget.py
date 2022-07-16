@@ -3,11 +3,8 @@ from PyQt5.QtWidgets import (
     QLabel, 
     QListWidget, 
     QScrollBar,
-    QComboBox,
     QVBoxLayout
     )
-
-from database_interface import initialize
 
 class TimeSelectionLabel(QLabel):
     def __init__(self):
@@ -45,11 +42,13 @@ class TimeSelectionList(QListWidget):
         self.insertItem(j,"11:59 PM")
 
 class TimeInputWidget(QWidget):
-    label = TimeSelectionLabel
-    selectionList = TimeSelectionList
+    label = None
+    selectionList = None
 
     def __init__(self):
         super().__init__()
+        self.label = TimeSelectionLabel()
+        self.selectionList = TimeSelectionList()
         layout = QVBoxLayout()
         layout.addWidget(self.label)
         layout.addWidget(self.selectionList)

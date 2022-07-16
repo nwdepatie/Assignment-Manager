@@ -1,4 +1,3 @@
-from readline import set_completer
 from PyQt5.QtWidgets import (
     QWidget, 
     QLabel, 
@@ -33,11 +32,13 @@ class PriorityInputLineEdit(QLineEdit):
 
 
 class PriorityInputWidget(QWidget):
-    label = PriorityInputLabel()
-    lineEdit = PriorityInputLineEdit()
+    label = None
+    lineEdit = None
 
     def __init__(self):
         super().__init__()
+        self.label = PriorityInputLabel()
+        self.lineEdit = PriorityInputLineEdit()
         layout = QVBoxLayout()
         layout.addWidget(self.label)
         layout.addWidget(self.lineEdit)

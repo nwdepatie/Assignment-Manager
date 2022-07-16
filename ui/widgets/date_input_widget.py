@@ -1,15 +1,5 @@
 from PyQt5.QtWidgets import (
-    QApplication,
-    QComboBox,
-    QListWidgetItem, 
-    QWidget, 
-    QPushButton, 
-    QLabel, 
-    QLineEdit, 
-    QListWidget, 
-    QCompleter, 
     QCalendarWidget,
-    QScrollBar,
     QComboBox
     )
 
