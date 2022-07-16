@@ -5,58 +5,13 @@ This script houses a variety of functions used for processing data, such as anal
     and mergesorting nested lists by urgency
 """
 
-from datetime import datetime
+from datetime import date, datetime
 import math
+from PyQt5.QtCore import QDate
 import numpy as np
 import time
 
 class process:
-
-    def month():
-        a=listtime[0]
-        if a == 'January' or a=='january' or a=='1' or a=='Jan':
-            listtime[0]='1'
-        if a == 'February' or a=='february' or a=='2' or a=='Feb':
-            listtime[0]='2'
-        if a == 'March' or a=='march' or a=='3' or a=='Mar':
-            listtime[0]='3'
-        if a == 'April' or a=='april' or a=='4' or a=='Apr':
-            listtime[0]='4'
-        if a == 'May' or a=='may' or a=='5' or a=='May':
-            listtime[0]='5'
-        if a == 'June' or a=='june' or a=='6' or a=='Jun':
-            listtime[0]='6'
-        if a == 'July' or a=='july' or a=='7' or a=='Jul':
-            listtime[0]='7'
-        if a == 'August' or a=='august' or a=='8' or a=='Aug':
-            listtime[0]='8'
-        if a == 'September' or a=='september' or a=='9' or a=='Sep':
-            listtime[0]='9'
-        if a == 'October' or a=='october' or a=='10' or a=='Oct':
-            listtime[0]='10'
-        if a == 'November' or a=='november' or a=='11' or a=='Nov':
-            listtime[0]='11'
-        if a == 'December' or a=='december' or a=='12' or a=='Dec':
-            listtime[0]='12'
-
-    def day():
-        a=listtime[1]
-        a=int(a)
-        if a<10:
-            listtime[1]=f'{a:02}'
-
-    def datetoint(inputtime):
-        global listtime
-        
-        listtime=list(inputtime.split(" "))
-        listtime.pop(0)
-        listtime.pop(2)
-        
-        process.month()
-        process.day()
-        
-        due_date=listtime[0]+listtime[1]
-        return due_date
 
     def timeuntildeadline(due_date):
         current_dt=datetime.now()
@@ -81,6 +36,10 @@ class process:
             return superlist
         elif n==3:
             return sublist[1], sublist[0]
+        elif n==4:
+            due_date=str(sublist[2])
+            due_date=due_date.strip()
+            return sublist[2]
         
     def string_to_int(assignmentlist):
         
@@ -136,3 +95,26 @@ class process:
                 list[k] = right[j]
                 j += 1
                 k += 1
+
+    def weeks_sorting(assignmentlist):
+        previous_weekday=-1
+        weektally=[]
+        for i in range(len(assignmentlist)):
+            assignment=assignmentlist[i].split(",")
+            numeric_date=process.getsublist(assignment,4)
+            numeric_date=(numeric_date[:-6]).strip()+" "+numeric_date[-6:-4]+" 2021"
+            object_date=datetime.strptime(numeric_date,"%m %d %Y")
+
+            current_weekday=object_date.weekday()
+            #print(str(current_weekday)+"vs"+str(previous_weekday))
+
+            #TODO IMPROVE WEEK SPECIFICTY LOGIC FOR SMALLER SAMPLE SIZES
+            if current_weekday<previous_weekday:
+                weektally.append(i)
+
+            previous_weekday=current_weekday
+
+        #print(weektally)
+        for i in range(len(weektally)):
+            #print(weektally[i])
+            assignmentlist.insert(weektally[i]+i,"#####")

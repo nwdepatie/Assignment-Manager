@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import (
     QCompleter, 
     QVBoxLayout
     )
+from PyQt5 import QtCore
 from PyQt5.QtGui import QColor, QIcon, QPainter
 
 
@@ -21,7 +22,7 @@ class SubjectInputLineEdit(QLineEdit):
 
     def setCompleterKeywords(self,wordList):
         completer=QCompleter(wordList)
-        #completer.setCaseSensitivity(Qt.CaseInsensitive)
+        completer.setCaseSensitivity(QtCore.Qt.CaseInsensitive)
         self.setCompleter(completer)
 
 
