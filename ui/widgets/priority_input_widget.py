@@ -16,20 +16,12 @@ class PriorityInputLabel(QLabel):
 
 
 class PriorityInputComboBox(QComboBox):
-    validUserInput = 1
     prioritylist = ['1','2','3','4','5','6','7','8','9','10']
 
     def __init__(self):
         super().__init__()
         self.addItems(self.prioritylist)
         self.setStyleSheet("QComboBox { background-color: white; }")
-
-    def cleanseInput(self,userInput):
-        if self.hasAcceptableInput() and userInput < 10:
-            self.validUserInput = userInput
-        else:
-            self.clear()
-            self.setText(self.validUserInput)
 
 class PriorityInputWidget(QWidget):
     label = None
