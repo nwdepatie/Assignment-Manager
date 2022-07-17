@@ -6,17 +6,20 @@ from PyQt6.QtWidgets import (
     QVBoxLayout
     )
 from PyQt6.QtGui import QColor, QIcon, QPainter
+from ui.widgets.stylesheets import BRIGHT_TEXT_LABEL, ROUNDED_GREY_WIDGET
 
 
 class AssignmentNameInputLabel(QLabel):
     def __init__(self):
         super().__init__()
         self.setText('Input Assignment Name')
+        self.setStyleSheet(BRIGHT_TEXT_LABEL)
 
 
 class AssignmentNameInputLineEdit(QLineEdit):
     def __init__(self):
         super().__init__()
+        self.setStyleSheet(ROUNDED_GREY_WIDGET)
 
 
 class AssignmentNameInputWidget(QWidget):

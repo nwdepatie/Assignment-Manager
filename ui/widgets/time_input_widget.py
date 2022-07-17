@@ -5,18 +5,22 @@ from PyQt6.QtWidgets import (
     QScrollBar,
     QVBoxLayout
     )
+from ui.widgets.stylesheets import BRIGHT_TEXT_LABEL, ROUNDED_GREY_WIDGET
 
 class TimeSelectionLabel(QLabel):
     def __init__(self):
         super().__init__()
         self.setText('Select Time Due')
+        self.setStyleSheet(BRIGHT_TEXT_LABEL)
 
 class TimeSelectionList(QListWidget):
     def __init__(self):
         super().__init__()
         scrollBar = QScrollBar()
+        scrollBar.setStyleSheet(BRIGHT_TEXT_LABEL)
         self.setVerticalScrollBar(scrollBar)
         self.initializeTimes()
+        self.setStyleSheet(ROUNDED_GREY_WIDGET)
 
     def initializeTimes(self):
         j=0

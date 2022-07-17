@@ -11,6 +11,7 @@ from PyQt6.QtWidgets import (
     QWidget,
     QHBoxLayout
     )
+from ui.widgets.stylesheets import MAIN_WINDOW_DARK
 from ui.widgets.user_input_widget import UserInputWidget
 
 '''
@@ -48,4 +49,5 @@ class MainWindow(QWidget):
         layout = QHBoxLayout()
         layout.addWidget(self.userInput)
         self.setLayout(layout)
+        self.setStyleSheet('background-color: {};'.format(MAIN_WINDOW_DARK))
         self.show()

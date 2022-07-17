@@ -7,18 +7,21 @@ from PyQt6.QtWidgets import (
 )
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QColor, QIcon, QPainter
+from ui.widgets.stylesheets import BRIGHT_TEXT_LABEL, ROUNDED_GREY_WIDGET
 
 
 class SubjectInputLabel(QLabel):
     def __init__(self):
         super().__init__()
         self.setText('Input Subject')
+        self.setStyleSheet(BRIGHT_TEXT_LABEL)
 
 
 class SubjectInputLineEdit(QLineEdit):
     def __init__(self):
         super().__init__()
         self.setCompleterKeywords([])
+        self.setStyleSheet(ROUNDED_GREY_WIDGET)
 
     def setCompleterKeywords(self,wordList):
         completer=QCompleter(wordList)

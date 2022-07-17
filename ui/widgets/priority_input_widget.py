@@ -6,6 +6,7 @@ from PyQt6.QtWidgets import (
     QVBoxLayout,
     QComboBox
     )
+from ui.widgets.stylesheets import BRIGHT_TEXT_LABEL, ROUNDED_GREY_WIDGET
 from PyQt6.QtGui import QColor, QIcon, QPainter
 
 
@@ -13,6 +14,7 @@ class PriorityInputLabel(QLabel):
     def __init__(self):
         super().__init__()
         self.setText("Input Priority (1-10)")
+        self.setStyleSheet(BRIGHT_TEXT_LABEL)
 
 
 class PriorityInputComboBox(QComboBox):
@@ -22,7 +24,7 @@ class PriorityInputComboBox(QComboBox):
     def __init__(self):
         super().__init__()
         self.addItems(self.prioritylist)
-        self.setStyleSheet("QComboBox { background-color: white; }")
+        self.setStyleSheet(ROUNDED_GREY_WIDGET)
 
     def cleanseInput(self,userInput):
         if self.hasAcceptableInput() and userInput < 10:
