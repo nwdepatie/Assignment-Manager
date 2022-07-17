@@ -1,12 +1,12 @@
-from PyQt5.QtWidgets import (
+from PyQt6.QtWidgets import (
     QWidget, 
     QLabel, 
     QLineEdit, 
     QCompleter, 
     QVBoxLayout
-    )
-from PyQt5 import QtCore
-from PyQt5.QtGui import QColor, QIcon, QPainter
+)
+from PyQt6.QtCore import Qt
+from PyQt6.QtGui import QColor, QIcon, QPainter
 
 
 class SubjectInputLabel(QLabel):
@@ -22,7 +22,7 @@ class SubjectInputLineEdit(QLineEdit):
 
     def setCompleterKeywords(self,wordList):
         completer=QCompleter(wordList)
-        completer.setCaseSensitivity(QtCore.Qt.CaseInsensitive)
+        #completer.setCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
         self.setCompleter(completer)
 
 
