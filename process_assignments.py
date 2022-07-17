@@ -7,7 +7,7 @@ This script houses a variety of functions used for processing data, such as anal
 
 from datetime import date, datetime
 import math
-from PyQt5.QtCore import QDate
+from PyQt6.QtCore import QDate
 import numpy as np
 import time
 

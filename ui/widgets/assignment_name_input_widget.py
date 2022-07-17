@@ -1,11 +1,11 @@
-from PyQt5.QtWidgets import (
+from PyQt6.QtWidgets import (
     QWidget, 
     QLabel, 
     QLineEdit, 
     QCompleter, 
     QVBoxLayout
     )
-from PyQt5.QtGui import QColor, QIcon, QPainter
+from PyQt6.QtGui import QColor, QIcon, QPainter
 
 
 class AssignmentNameInputLabel(QLabel):

@@ -12,9 +12,9 @@ import sys
 import time
 import importlib
 from typing import Text
-import PyQt5
-from PyQt5 import QtCore
-from PyQt5.QtWidgets import (
+import PyQt6
+from PyQt6 import QtCore
+from PyQt6.QtWidgets import (
     QApplication,
     QComboBox,
     QListWidgetItem,
@@ -30,9 +30,9 @@ from PyQt5.QtWidgets import (
     QComboBox,
     QVBoxLayout
     )
-from PyQt5.QtGui import QColor, QIcon, QPainter
-from PyQt5.QtCore import center, pyqtSlot, QDate, QRect
-from PyQt5.sip import assign
+from PyQt6.QtGui import QColor, QIcon, QPainter
+from PyQt6.QtCore import center, pyqtSlot, QDate, QRect
+from PyQt6.sip import assign
 import database_interface as interface
 import process_assignments as process
 import googlecalendar_interface as quickstart

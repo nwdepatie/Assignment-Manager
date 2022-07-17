@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import (
+from PyQt6.QtWidgets import (
     QWidget, 
     QLabel, 
     QLineEdit, 
@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import (
     QVBoxLayout,
     QComboBox
     )
-from PyQt5.QtGui import QColor, QIcon, QPainter
+from PyQt6.QtGui import QColor, QIcon, QPainter
 
 
 class PriorityInputLabel(QLabel):

@@ -6,7 +6,7 @@ This script will create a GUI to allow the user to log assignments to a database
     (i.e. how close the deadline is and how important is the assignment)
 """
 
-from PyQt5.QtWidgets import (
+from PyQt6.QtWidgets import (
     QMainWindow,
     QWidget,
     QHBoxLayout
