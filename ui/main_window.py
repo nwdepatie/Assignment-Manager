@@ -9,9 +9,11 @@ This script will create a GUI to allow the user to log assignments to a database
 from PyQt6.QtWidgets import (
     QMainWindow,
     QWidget,
-    QHBoxLayout
+    QHBoxLayout,
+    QVBoxLayout
     )
 from ui.widgets.user_input_widget import UserInputWidget
+from ui.widgets.menu_bar_widget import MenuBarWidget
 
 '''
 def mainWindow():
@@ -41,11 +43,14 @@ def mainWindow():
 
 class MainWindow(QWidget):
     userInput = None
+    menuBar = None
 
     def __init__(self):
         super().__init__()
         self.userInput = UserInputWidget()
-        layout = QHBoxLayout()
+        self.menuBar = MenuBarWidget()
+        layout = QVBoxLayout()
+        layout.addWidget(self.menuBar)
         layout.addWidget(self.userInput)
         self.setLayout(layout)
         self.show()
